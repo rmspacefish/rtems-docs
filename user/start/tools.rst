@@ -20,7 +20,14 @@ The tool suite for RTEMS and the RTEMS sources are tightly coupled.  For
 example, do not use a RTEMS version 5 tool suite with RTEMS version 4.11
 sources and vice versa.
 
-Build and install the tool suite:
+The available build sets can be displayed with:
+
+.. code-block:: none
+    
+    cd $HOME/quick-start/src/rsb/rtems
+    ../source-builder/sb-set-builder --list-bsets
+	
+Build and install the version 5 tool suite for the SPARC architecture:
 
 .. code-block:: none
 

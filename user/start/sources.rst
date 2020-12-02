@@ -86,12 +86,21 @@ You can clone the Git repository to get all versions of RTEMS including the
 development head.  Release branches in Git are kept stable however they may
 differ from a release's source archive.
 
+For this Quick Start guide, we will switch to the RTEMS 5 branches because the 
+master branch does not contain the version 5 `rtems-sparc` build set.
+If you wich to build with the master branch instead, it is recommended to
+replace the version number 5 with version 6 everywhere it is used in the Quick Start guide.
+
 .. code-block:: none
 
     mkdir -p $HOME/quick-start/src
     cd $HOME/quick-start/src
     git clone git://git.rtems.org/rtems-source-builder.git rsb
+    git checkout origin/5
+    git checkout -b 5
     git clone git://git.rtems.org/rtems.git
+    git checkout origin/5
+    git checkout -b 5
 
 The :file:`rsb` repository clone contains the :ref:`RTEMS Source Builder (RSB)
 <RSB>`.  We clone it into :file:`rsb` to get shorter paths during the tool
