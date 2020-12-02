@@ -9,11 +9,14 @@
 Obtain the Sources
 ==================
 
+The chosen RTEMS version (5 for a released build, 6 for the git clone) will be 
+replaced by $RTEMS_VERSION for some parts of the Quick Start.
 You have considered and chosen a suitable installation prefix in the previous
-section.  We have chosen :file:`$HOME/quick-start/rtems/5` as the installation
+section.  We have chosen :file:`$HOME/quick-start/rtems/$RTEMS_VERSION` as the installation
 prefix. We will show how to use a released version of RTEMS and then as an
 alternative we will show you using the :ref:`RSB Git repository
-<QuickStartSources_Git>`. Consider using a Git clone if you wish to make
+<QuickStartSources_Git>` master which uses RTEMS version 6. 
+Consider using a Git clone if you wish to make
 contributions to the RTEMS Project.
 
 You need the RTEMS Source Builder (RSB) to work with RTEMS and we prefer you
@@ -85,6 +88,9 @@ repositories enable you to easily create patches and track local changes.
 You can clone the Git repository to get all versions of RTEMS including the
 development head.  Release branches in Git are kept stable however they may
 differ from a release's source archive.
+
+The master branch by default uses RTEMS version 6 and does not 
+contain the version 5 `rtems-sparc` build set.
 
 .. code-block:: none
 

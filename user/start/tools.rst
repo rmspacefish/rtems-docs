@@ -12,20 +12,27 @@ Install the Tool Suite
 
 You have chosen an installation prefix, the BSP to build, the tool's
 architecure and prepared the source for the RSB in the previous sections.  We
-have chosen :file:`$HOME/quick-start/rtems/5` as the installation prefix, the
-``erc32`` BSP and the SPARC architecture name of ``sparc-rtems5``, and unpacked
-the RSB source in :file:`$HOME/quick-start/src`.
+have chosen :file:`$HOME/quick-start/rtems/$RTEMS_VERSION` as the installation prefix, the
+``erc32`` BSP and the SPARC architecture name of ``sparc-rtems5`` (``sparc-rtems6`` for the git clone), 
+and unpacked the RSB source in :file:`$HOME/quick-start/src`.
 
 The tool suite for RTEMS and the RTEMS sources are tightly coupled.  For
 example, do not use a RTEMS version 5 tool suite with RTEMS version 4.11
 sources and vice versa.
 
-Build and install the tool suite:
+The available build sets can be displayed with:
+
+.. code-block:: none
+    
+    cd $HOME/quick-start/src/rsb/rtems
+    ../source-builder/sb-set-builder --list-bsets
+	
+Build and install the tool suite for the SPARC architecture and RTEMS version:
 
 .. code-block:: none
 
     cd $HOME/quick-start/src/rsb/rtems
-    ../source-builder/sb-set-builder --prefix=$HOME/quick-start/rtems/5 5/rtems-sparc
+    ../source-builder/sb-set-builder --prefix=$HOME/quick-start/rtems/$RTEMS_VERSION $RTEMS_VERSION/rtems-sparc
 
 This command should output something like this (omitted lines are denoted by
 ...). The build host appears as part of the name of the package being
@@ -51,7 +58,7 @@ built. The name you see may vary depending on the host you are using:
     Build Set: Time 0:21:35.626294
 
 Once the build has successfully completed you can check if the cross C compiler
-works with the following command:
+works with the following command (replace 5 with 6 for RTEMS 6):
 
 .. code-block:: none
 
