@@ -126,6 +126,18 @@ Python2 package. The MSYS Python is version 3 and the RSB can support version 2
 and 3 of Python and it helps handle some of the long paths building GCC can
 generate.
 
+If the following error occurs during a build process
+
+.. code-block:: none
+
+  LookupError: unknown encoding: cp65001
+  
+it is recommended to run the following command:
+
+.. code-block:: none
+
+  export PYTHONIOENCODING=UTF-8
+
 .. _microsoft-windows-installation:
 
 MSYS2
