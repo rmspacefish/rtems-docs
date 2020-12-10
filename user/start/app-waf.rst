@@ -4,7 +4,7 @@
 
 .. _QuickStartAPP:
 
-Build Your Application
+Build Your Application using waf
 ======================
 
 You tested a BSP in the previous section.  We built the ``erc32`` BSP

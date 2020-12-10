@@ -20,6 +20,7 @@ applications on top of RTEMS.
     tools
     bsp-build
     bsp-test
-    app
+    app-waf
+    app-rtems
     rsb-packages
     gsoc
