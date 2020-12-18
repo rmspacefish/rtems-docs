@@ -237,13 +237,13 @@ For example, the following script named `path_setter_v6.sh` will set up the path
 easier development with version 6:
 
 .. code-block:: none
-	export RTEMS_VERSION=6
+    export RTEMS_VERSION=6
 	
-	export PATH="$PATH":"$HOME/quick-start/rtems/$RTEMS_VERSION/bin"
-	export RTEMS_TOOLS="$HOME/quick-start/rtems/$RTEMS_VERSION"
+    export PATH="$PATH":"$HOME/quick-start/rtems/$RTEMS_VERSION/bin"
+    export RTEMS_TOOLS="$HOME/quick-start/rtems/$RTEMS_VERSION"
 	
 The script can be run with
 
 .. code-block:: none
-	source path_setter_v6.sh
+    source path_setter_v6.sh
 
