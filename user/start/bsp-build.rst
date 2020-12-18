@@ -232,3 +232,18 @@ by ``$BASE``.
     'install_sparc/erc32' finished successfully (2.985s)
 
 The BSP should now have been installed at the supplied prefix location.
+It is recommended to do the task of setting paths and the RTEMS prefix in a shell script. 
+For example, the following script named `path_setter_v6.sh` will set up the path and some environmental variables for
+easier development with version 6:
+
+.. code-block:: none
+	export RTEMS_VERSION=6
+	
+	export PATH="$PATH":"$HOME/quick-start/rtems/$RTEMS_VERSION/bin"
+	export RTEMS_TOOLS="$HOME/quick-start/rtems/$RTEMS_VERSION"
+	
+The script can be run with
+
+.. code-block:: none
+	source path_setter_v6.sh
+
