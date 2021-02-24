@@ -11,7 +11,7 @@ Build a Board Support Package (BSP)
 You installed the tool suite in your installation prefix, made ready the source
 for two RTEMS source packages and if you are using a Git clone bootstrapped the
 RTEMS sources in the previous sections.  We installed the tool suite in
-:file:`$HOME/quick-start/rtems/5` and unpacked the source in
+:file:`$HOME/quick-start/rtems/$RTEMS_VERSION` and unpacked the source in
 :file:`$HOME/quick-start/src`.
 
 You are now able to build :ref:`Board Support Packages (BSPs) <BSPs>` for all
@@ -35,9 +35,9 @@ RSB BSP Build
 -------------
 
 The RSB build of RTEMS does not use the RTEMS source we made ready. It uses the
-RSB source you downloaded in a previous section. If you are using a release RSB
-source archive the BSP built is the released kernel image. If you are using a
-Git clone of the RSB the BSP will be version referenced in the RSB clone.
+RSB source you downloaded in a previous section which uses the released version 5.
+If you are using a release RSB source archive the BSP built is the released kernel image. 
+If you are using a Git clone of the RSB the BSP will be version referenced in the RSB clone.
 
 To build the BSP with all the tests run this command:
 
@@ -99,26 +99,27 @@ If you have built a BSP with the RSB, you can move on to
 Manual BSP Build
 ----------------
 
-We manually build the BSP in four steps.  The first step is to create a build
-directory.  It must be separate from the RTEMS source directory.  We use
-:file:`$HOME/quick-start/build/b-erc32`.
+We manually build the BSP in four steps, using the git clone of the RTEMS sources and the master branch (version 6). 
+The first step is to create a build directory.  It must be separate from the RTEMS source directory.  
+We use :file:`$HOME/quick-start/build/b-erc32`.
 
 .. code-block:: none
 
     mkdir -p $HOME/quick-start/build/b-erc32
 
 The second step is to set your path. Prepend the RTEMS tool suite binary
-directory to your ``$PATH`` throughout the remaining steps. Run the command:
+directory to your ``$PATH`` throughout the remaining steps. Run the command with
+the correct RTEMS version number:
 
 .. code-block:: none
 
-    export PATH=$HOME/quick-start/rtems/5/bin:"$PATH"
+    export PATH=$HOME/quick-start/rtems/$RTEMS_VERSION/bin:"$PATH"
 
 Check your installed tools can be found by running:
 
 .. code-block:: none
 
-    command -v sparc-rtems5-gcc && echo "found" || echo "not found"
+    command -v sparc-rtems6-gcc && echo "found" || echo "not found"
 
 The output should be:
 
@@ -128,7 +129,7 @@ The output should be:
 
 If ``not found`` is printed the tools are not correctly installed or the path
 has not been correctly set. Check the contents of the path
-:file:`$HOME/quick-start/rtems/5/bin` manually and if :file:`sparc-rtems5-gcc`
+:file:`$HOME/quick-start/rtems/$RTEMS_VERSION/bin` manually and if :file:`sparc-rtems6-gcc`
 is present the path is wrong. If the file cannot be found return to
 :ref:`QuickStartTools` and install the tools again.
 
@@ -145,7 +146,7 @@ everything else.  For detailed information about the BSP build system, see
     cd $HOME/quick-start/src/rtems
     echo "[sparc/erc32]" > config.ini
     echo "BUILD_TESTS = True" >> config.ini
-    ./waf configure --prefix=$HOME/quick-start/rtems/5
+    ./waf configure -o $HOME/quick-start/build/b-erc32 --prefix=$HOME/quick-start/rtems/$RTEMS_VERSION
 
 The first invocation of ``./waf`` needs a bit of time (e.g. 10 seconds) since an
 internal cache file is populated.  This command should output something like
@@ -229,3 +230,20 @@ by ``$BASE``.
     + install $BASE/rtems/5/sparc-rtems5/erc32/lib/include/rtems/score/wkspace.h (from cpukit/include/rtems/score/wkspace.h)
     Waf: Leaving directory `$BASE/src/rtems/build/sparc/erc32'
     'install_sparc/erc32' finished successfully (2.985s)
+
+The BSP should now have been installed at the supplied prefix location.
+It is recommended to do the task of setting paths and the RTEMS prefix in a shell script. 
+For example, the following script named `path_setter_v6.sh` will set up the path and some environmental variables for
+easier development with version 6:
+
+.. code-block:: none
+    export RTEMS_VERSION=6
+	
+    export PATH="$PATH":"$HOME/quick-start/rtems/$RTEMS_VERSION/bin"
+    export RTEMS_TOOLS="$HOME/quick-start/rtems/$RTEMS_VERSION"
+	
+The script can be run with
+
+.. code-block:: none
+    source path_setter_v6.sh
+
