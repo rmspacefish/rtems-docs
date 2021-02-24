@@ -16,26 +16,26 @@ The BSP is known to run on these boards:
 Clock Driver
 ------------
 
-The clock driver uses the `ARMv7-M Systick` module. The HSE (external 
-oscillator) value can also be different for different evaluation or custom 
+The clock driver uses the `ARMv7-M Systick` module. The HSE (external
+oscillator) value can also be different for different evaluation or custom
 boards, so it is recommended to check the default values of the BSP.
 
 Console Driver
 --------------
 
 The console driver supports the on-chip UART and USART modules.
-Different board variations use different GPIO pins and blocks for the default 
-communication UART and it is recommended to check whether the default 
+Different board variations use different GPIO pins and blocks for the default
+communication UART and it is recommended to check whether the default
 configuration provided is valid in the BSP.
 
 To specify that the BSP should be built for the STM32H743ZI-Nucleo board,
-users can supply ``STM32H743ZI_NUCLEO == True`` to ``config.ini`` when 
+users can supply ``STM32H743ZI_NUCLEO = True`` to ``config.ini`` when
 building the BSP.
 
 Alternatively, users can supply the configuration structs defined in ``hal.h``
-in the applicaton for other boards. For the console driver, the 
-``stm32h7_usartX_config`` structs are used to configure the GPIO pins and other 
-parameters. The default implementations can be found in 
+in the application for other boards. For the console driver, the
+``stm32h7_usartX_config`` structs are used to configure the GPIO pins and other
+parameters. The default implementations can be found in
 ``bsps/arm/stm32ht/console`` in the RTEMS sources.
 
 Network Interface Driver

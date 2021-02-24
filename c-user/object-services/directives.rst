@@ -1,6 +1,6 @@
 .. SPDX-License-Identifier: CC-BY-SA-4.0
 
-.. Copyright (C) 2020 embedded brains GmbH (http://www.embedded-brains.de)
+.. Copyright (C) 2020, 2021 embedded brains GmbH (http://www.embedded-brains.de)
 .. Copyright (C) 1988, 2009 On-Line Applications Research Corporation (OAR)
 
 .. This file is part of the RTEMS quality process and was automatically
@@ -8,11 +8,15 @@
 .. worded better please post a report or patch to an RTEMS mailing list
 .. or raise a bug report:
 ..
-.. https://docs.rtems.org/branches/master/user/support/bugs.html
+.. https://www.rtems.org/bugs.html
 ..
-.. For information on updating and regenerating please refer to:
+.. For information on updating and regenerating please refer to the How-To
+.. section in the Software Requirements Engineering chapter of the
+.. RTEMS Software Engineering manual.  The manual is provided as a part of
+.. a release.  For development sources please refer to the online
+.. documentation at:
 ..
-.. https://docs.rtems.org/branches/master/eng/req/howto.html
+.. https://docs.rtems.org
 
 .. _ObjectServicesDirectives:
 
@@ -43,14 +47,19 @@ components.
 
 .. code-block:: c
 
-    #define rtems_build_id( api, class, node, index )
+    rtems_id rtems_build_id(
+      uint32_t api,
+      uint32_t the_class,
+      uint32_t node,
+      uint32_t index
+    );
 
 .. rubric:: PARAMETERS:
 
 ``api``
     This parameter is the API of the object identifier to build.
 
-``class``
+``the_class``
     This parameter is the class of the object identifier to build.
 
 ``node``
@@ -64,9 +73,15 @@ components.
 Returns the object identifier built from the API, class, MPCI node, and index
 components.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/build-name
 
@@ -87,7 +102,7 @@ Builds the object name composed of the four characters.
 
 .. code-block:: c
 
-    #define rtems_build_name( c1, c2, c3, c4 )
+    rtems_name rtems_build_name( char c1, char c2, char c3, char c4 );
 
 .. rubric:: PARAMETERS:
 
@@ -113,9 +128,15 @@ least significant 8-bits.
 
 Returns the object name composed of the four characters.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/get-classic-name
 
@@ -147,9 +168,9 @@ Gets the object name associated with the object identifier.
     This parameter is the object identifier to get the name.
 
 ``name``
-    This parameter is the pointer to an object name variable.  The object name
-    associated with the object identifier will be stored in this variable, in
-    case of a successful operation.
+    This parameter is the pointer to an object name variable.  When the
+    directive call is successful, the object name associated with the object
+    identifier will be stored in this variable.
 
 .. rubric:: RETURN VALUES:
 
@@ -169,9 +190,13 @@ Gets the object name associated with the object identifier.
 :c:macro:`RTEMS_INVALID_ID`
     There was no object associated with the object identifier.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/get-name
 
@@ -231,10 +256,13 @@ string even if the object has the Classic API 32-bit integer style name.
 Returns the ``name`` parameter value, if there is an object name associated
 with the object identifier.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive may cause the calling task to be preempted due to an obtain and
-release of the object allocator mutex.
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/set-name
 
@@ -289,9 +317,6 @@ This directive will set the object name based upon the user string.
 
 .. rubric:: NOTES:
 
-This directive may cause the calling task to be preempted due to an obtain and
-release of the object allocator mutex.
-
 This directive can be used to set the name of objects which do not have a
 naming scheme per their API.
 
@@ -303,6 +328,17 @@ enough memory from the RTEMS Workspace to make a copy of the string located at
 If the object specified by ``id`` is of a class that has a 32-bit integer style
 name, then the first four characters in ``name`` will be used to construct the
 name.
+
+.. rubric:: CONSTRAINTS:
+
+The following constraints apply to this directive:
+
+* The directive may be called from within device driver initialization context.
+
+* The directive may be called from within task context.
+
+* The directive may obtain and release the object allocator mutex.  This may
+  cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/id-get-api
 
@@ -323,7 +359,7 @@ Gets the API component of the object identifier.
 
 .. code-block:: c
 
-    #define rtems_object_id_get_api( id )
+    int rtems_object_id_get_api( rtems_id id );
 
 .. rubric:: PARAMETERS:
 
@@ -336,11 +372,17 @@ Returns the API component of the object identifier.
 
 .. rubric:: NOTES:
 
-This directive is strictly local and does not impact task scheduling.
-
 This directive does not validate the object identifier provided in ``id``.
 
-A body is also provided.
+.. rubric:: CONSTRAINTS:
+
+The following constraints apply to this directive:
+
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/id-get-class
 
@@ -361,7 +403,7 @@ Gets the class component of the object identifier.
 
 .. code-block:: c
 
-    #define rtems_object_id_get_class( id )
+    int rtems_object_id_get_class( rtems_id id );
 
 .. rubric:: PARAMETERS:
 
@@ -374,11 +416,17 @@ Returns the class component of the object identifier.
 
 .. rubric:: NOTES:
 
-This directive is strictly local and does not impact task scheduling.
-
 This directive does not validate the object identifier provided in ``id``.
 
-A body is also provided.
+.. rubric:: CONSTRAINTS:
+
+The following constraints apply to this directive:
+
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/id-get-node
 
@@ -399,7 +447,7 @@ Gets the MPCI node component of the object identifier.
 
 .. code-block:: c
 
-    #define rtems_object_id_get_node( id )
+    int rtems_object_id_get_node( rtems_id id );
 
 .. rubric:: PARAMETERS:
 
@@ -413,11 +461,17 @@ Returns the MPCI node component of the object identifier.
 
 .. rubric:: NOTES:
 
-This directive is strictly local and does not impact task scheduling.
-
 This directive does not validate the object identifier provided in ``id``.
 
-A body is also provided.
+.. rubric:: CONSTRAINTS:
+
+The following constraints apply to this directive:
+
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/id-get-index
 
@@ -438,7 +492,7 @@ Gets the index component of the object identifier.
 
 .. code-block:: c
 
-    #define rtems_object_id_get_index( id )
+    int rtems_object_id_get_index( rtems_id id );
 
 .. rubric:: PARAMETERS:
 
@@ -451,11 +505,17 @@ Returns the index component of the object identifier.
 
 .. rubric:: NOTES:
 
-This directive is strictly local and does not impact task scheduling.
-
 This directive does not validate the object identifier provided in ``id``.
 
-A body is also provided.
+.. rubric:: CONSTRAINTS:
+
+The following constraints apply to this directive:
+
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/id-api-minimum
 
@@ -476,17 +536,21 @@ Gets the lowest valid value for the API component of an object identifier.
 
 .. code-block:: c
 
-    #define rtems_object_id_api_minimum()
+    int rtems_object_id_api_minimum( void );
 
 .. rubric:: RETURN VALUES:
 
 Returns the lowest valid value for the API component of an object identifier.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
 
-A body is also provided.
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/id-api-maximum
 
@@ -507,17 +571,21 @@ Gets the highest valid value for the API component of an object identifier.
 
 .. code-block:: c
 
-    #define rtems_object_id_api_maximum()
+    int rtems_object_id_api_maximum( void );
 
 .. rubric:: RETURN VALUES:
 
 Returns the highest valid value for the API component of an object identifier.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
 
-A body is also provided.
+* The directive is implemented by a macro and may be called from within C/C++
+  constant expressions.  In addition, a function implementation of the
+  directive exists for bindings to other programming languages.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/api-minimum-class
 
@@ -552,9 +620,13 @@ Gets the lowest valid class value of the object API.
 
 Returns the lowest valid class value of the object API.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/api-maximum-class
 
@@ -589,9 +661,13 @@ Gets the highest valid class value of the object API.
 
 Returns the highest valid class value of the object API.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/get-api-name
 
@@ -628,9 +704,15 @@ Returns a descriptive name of the API, if the API was valid.
 
 .. rubric:: NOTES:
 
-This directive is strictly local and does not impact task scheduling.
-
 The string returned is from constant space.  Do not modify or free it.
+
+.. rubric:: CONSTRAINTS:
+
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/get-api-class-name
 
@@ -674,9 +756,15 @@ the API were valid.
 
 .. rubric:: NOTES:
 
-This directive is strictly local and does not impact task scheduling.
-
 The string returned is from constant space.  Do not modify or free it.
+
+.. rubric:: CONSTRAINTS:
+
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/get-class-information
 
@@ -713,9 +801,9 @@ Gets the object class information of the object class of the object API.
     information.
 
 ``info``
-    This parameter is the pointer to an object class information variable.  The
-    object class information of the class of the API will be stored in this
-    variable, in case of a successful operation.
+    This parameter is the pointer to an object class information variable.
+    When the directive call is successful, the object class information of the
+    class of the API will be stored in this variable.
 
 .. rubric:: RETURN VALUES:
 
@@ -729,9 +817,13 @@ Gets the object class information of the object class of the object API.
 :c:macro:`RTEMS_INVALID_NUMBER`
     The class of the API or the API was invalid.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/get-local-node
 
@@ -758,9 +850,13 @@ Gets the local MPCI node number.
 
 Returns the local MPCI node number.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
 
 .. Generated from spec:/rtems/object/if/id-initial
 
@@ -800,6 +896,10 @@ MPCI node components.
 Returns the object identifier with the lowest index built from the API, class,
 and MPCI node components.
 
-.. rubric:: NOTES:
+.. rubric:: CONSTRAINTS:
 
-This directive is strictly local and does not impact task scheduling.
+The following constraints apply to this directive:
+
+* The directive may be called from within any runtime context.
+
+* The directive will not cause the calling task to be preempted.
