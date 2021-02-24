@@ -4,6 +4,8 @@
 
 .. index:: tasks
 
+.. _RTEMSAPIClassicTask:
+
 Task Manager
 ************
 
@@ -13,3 +15,5 @@ Task Manager
     background
     operations
     directives
+    deprecated-directives
+    removed-directives

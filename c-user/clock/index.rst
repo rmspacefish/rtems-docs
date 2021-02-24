@@ -4,6 +4,8 @@
 
 .. index:: clock
 
+.. _RTEMSAPIClassicClock:
+
 Clock Manager
 *************
 
@@ -13,3 +15,4 @@ Clock Manager
     background
     operations
     directives
+    removed-directives

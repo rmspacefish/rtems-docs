@@ -1,7 +1,7 @@
 .. SPDX-License-Identifier: CC-BY-SA-4.0
 
 .. Copyright (C) 2020 Richi Dubey (richidubey@gmail.com)
-.. Copyright (C) 2017, 2019 embedded brains GmbH (http://www.embedded-brains.de)
+.. Copyright (C) 2017, 2021 embedded brains GmbH (http://www.embedded-brains.de)
 .. Copyright (C) 1988, 1998 On-Line Applications Research Corporation (OAR)
 
 Glossary
@@ -58,6 +58,9 @@ Glossary
     awakened
         A term used to describe a task that has been unblocked and may be
         scheduled to the CPU.
+
+    BCB
+        This term is an acronym for Barrier Control Block.
 
     big endian
         A data representation scheme in which the bytes composing a numeric value
@@ -117,6 +120,39 @@ Glossary
         A data structure which allows for efficient dynamic addition and removal
         of elements.  It differs from an array in that it is not limited to a
         predefined size.
+
+    Clock Driver
+        The Clock Driver is a driver which provides the :term:`clock tick` and a
+        time counter.  The time counter is used to drive the :term:`CLOCK_REALTIME`
+        and :term:`CLOCK_MONOTONIC`.  The Clock Driver can be initialized by the
+        application with the :ref:`CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER` and
+        :ref:`CONFIGURE_MICROSECONDS_PER_TICK` application configuration options.
+
+    clock tick
+        The clock tick is a coarse time measure provided by RTEMS.  The
+        :term:`Clock Driver` emits clock ticks at rate specified by the
+        :ref:`CONFIGURE_MICROSECONDS_PER_TICK` application configuration option.  In
+        contrast to :term:`CLOCK_REALTIME` and :term:`CLOCK_MONOTONIC`, the clock
+        tick rate is not affected by incremental adjustments.
+
+    CLOCK_MONOTONIC
+        The CLOCK_MONOTONIC is a clock provided by RTEMS which measures the time
+        since an unspecified starting point.  In contrast to :term:`CLOCK_REALTIME`,
+        this clock cannot be set.  It may be affected by incremental adjustments for
+        example carried out by the :term:`NTP` or the use of a :term:`PPS` signal.
+        See also :term:`CLOCK_REALTIME`, :term:`clock tick`, and
+        :term:`Clock Driver`.
+
+    CLOCK_REALTIME
+        The CLOCK_REALTIME is a clock provided by RTEMS which measures the real time
+        (also known as wall-clock time).  It is defined by :term:`POSIX`.  In
+        particular, every day is treated as if it contains exactly 86400 seconds and
+        leap seconds are ignored.  This clock can be set by the application which may
+        result in time jumps.  It may be affected by incremental adjustments for
+        example carried out by the :term:`NTP` or the use of a :term:`PPS` signal.
+        RTEMS can represent time points of this clock in nanoseconds ranging from
+        1988-01-01T00:00:00.000000000Z to 2514-05-31T01:53:03.999999999Z.  See also
+        :term:`CLOCK_MONOTONIC`, :term:`clock tick`, and :term:`Clock Driver`.
 
     cluster
         We have clustered scheduling in case the set of processors of a system is
@@ -190,6 +226,9 @@ Glossary
         The state entered by a task after it is created and before it has been
         started.
 
+    DPCB
+        This term is an acronym for Dual-Ported Memory Control Block.
+
     dual-ported
         A term used to describe memory which can be accessed at two different
         addresses.
@@ -218,6 +257,9 @@ Glossary
 
     error code
         This term has the same meaning as :term:`status code`.
+
+    ESCB
+        This term is an acronym for Extension Set Control Block.
 
     events
         A method for task communication and synchronization. The directives
@@ -449,6 +491,10 @@ Glossary
     non-existent
         The state occupied by an uncreated or deleted task.
 
+    NTP
+        This term is an acronym for
+        `Network Time Protocol <https://en.wikipedia.org/wiki/Network_Time_Protocol>`_.
+
     NUMA
         This term is an acronym for Non-Uniform Memory Access.
 
@@ -492,6 +538,9 @@ Glossary
         A data structure associated with each partition used by RTEMS to manage
         that partition.
 
+    PCB
+        This term is an acronym for Period Control Block.
+
     pending
         A term used to describe a task blocked waiting for an event, message,
         semaphore, or signal.
@@ -515,8 +564,16 @@ Glossary
         A term used to describe the ease with which software can be rehosted on
         another computer.
 
+    POSIX
+        This term is an acronym for
+        `Portable Operating System Interface <https://en.wikipedia.org/wiki/POSIX>`_.
+
     posting
         The act of sending an event, message, semaphore, or signal to a task.
+
+    PPS
+        This term is an acronym for
+        `Pulse-Per-Second <https://en.wikipedia.org/wiki/Pulse-per-second_signal>`_.
 
     preempt
         The act of forcing a task to relinquish the processor and dispatching to
@@ -637,6 +694,10 @@ Glossary
 
     RTEMS
         This term is an acronym for Real-Time Executive for Multiprocessor Systems.
+
+    RTEMS epoch
+        The RTEMS epoch is a point in time.  It is 1988-01-01T00:00:00Z in
+        `ISO 8601 <https://en.wikipedia.org/wiki/ISO_8601>`_ time format.
 
     running
         The state of a rate monotonic timer while it is being used to delineate a
@@ -897,6 +958,10 @@ Glossary
 
     TTAS
         This term is an acronym for Test and Test-And-Set.
+
+    Unix epoch
+        The Unix epoch is a point in time.  It is 1970-01-01T00:00:00Z in
+        `ISO 8601 <https://en.wikipedia.org/wiki/ISO_8601>`_ time format.
 
     User Extension Table
         A table which contains the entry points for each user extensions.

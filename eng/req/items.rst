@@ -7,11 +7,15 @@
 .. worded better please post a report or patch to an RTEMS mailing list
 .. or raise a bug report:
 ..
-.. https://docs.rtems.org/branches/master/user/support/bugs.html
+.. https://www.rtems.org/bugs.html
 ..
-.. For information on updating and regenerating please refer to:
+.. For information on updating and regenerating please refer to the How-To
+.. section in the Software Requirements Engineering chapter of the
+.. RTEMS Software Engineering manual.  The manual is provided as a part of
+.. a release.  For development sources please refer to the online
+.. documentation at:
 ..
-.. https://docs.rtems.org/branches/master/eng/req/howto.html
+.. https://docs.rtems.org
 
 .. _ReqEngSpecificationItems:
 
@@ -108,6 +112,8 @@ The specification item types have the following hierarchy:
       * :ref:`SpecTypeGenericFunctionalRequirementItemType`
 
     * :ref:`SpecTypeNonFunctionalRequirementItemType`
+
+      * :ref:`SpecTypeDesignGroupRequirementItemType`
 
       * :ref:`SpecTypeGenericNonFunctionalRequirementItemType`
 
@@ -1953,9 +1959,29 @@ non-functional-type
 
 This type is refined by the following types:
 
+* :ref:`SpecTypeDesignGroupRequirementItemType`
+
 * :ref:`SpecTypeGenericNonFunctionalRequirementItemType`
 
 * :ref:`SpecTypeRuntimePerformanceRequirementItemType`
+
+.. _SpecTypeDesignGroupRequirementItemType:
+
+Design Group Requirement Item Type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This type refines the :ref:`SpecTypeNonFunctionalRequirementItemType` through
+the ``non-functional-type`` attribute if the value is ``design-group``. This
+set of attributes specifies a design group requirement.  Design group
+requirements have an explicit reference to the associated Doxygen group
+specified by the ``identifier`` attribute.  Design group requirements have an
+implicit validation by inspection method.  The qualification toolchain shall
+perform the inspection and check that the specified Doxygen group exists in the
+software source code. All explicit attributes shall be specified. The explicit
+attributes for this type are:
+
+identifier
+    The attribute value shall be an :ref:`SpecTypeInterfaceGroupIdentifier`.
 
 .. _SpecTypeGenericNonFunctionalRequirementItemType:
 
@@ -2336,20 +2362,18 @@ test-brief
     The attribute value shall be a string. It shall be the test case brief
     description.
 
+test-context
+    The attribute value shall be a list. Each list element shall be a
+    :ref:`SpecTypeTestContextMember`.
+
+test-context-support
+    The attribute value shall be an optional string. If the value is present,
+    then it shall be the test context support code.  The context support code
+    is placed at file scope before the test context definition.
+
 test-description
     The attribute value shall be an optional string. It shall be the test case
     description.
-
-test-epilogue
-    The attribute value shall be an optional string. If the value is present,
-    then it shall be the test case epilogue code.  The epilogue code is placed
-    in the test case body after the test case actions.
-
-test-fixture
-    The attribute value shall be an optional string. If the value is present,
-    then it shall be a pointer to the test case fixture.  The test case fixture
-    pointer declaration may be provided by the test case support code or via an
-    included header file.
 
 test-header
     The attribute value shall be a :ref:`SpecTypeTestHeader`.
@@ -2362,11 +2386,11 @@ test-local-includes
     The attribute value shall be a list of strings. It shall be a list of
     header files included via ``#include "..."``.
 
-test-prologue
-    The attribute value shall be an optional string. If the value is present,
-    then it shall be the test case prologue code.  The prologue code is placed
-    in the test case body before the test case actions.  A use case is the
-    declaration of local variables used by the test case actions.
+test-setup
+    The attribute value shall be a :ref:`SpecTypeTestSupportMethod`.
+
+test-stop
+    The attribute value shall be a :ref:`SpecTypeTestSupportMethod`.
 
 test-support
     The attribute value shall be an optional string. If the value is present,
@@ -2376,6 +2400,9 @@ test-support
 test-target
     The attribute value shall be a string. It shall be the path to the
     generated target test case source file.
+
+test-teardown
+    The attribute value shall be a :ref:`SpecTypeTestSupportMethod`.
 
 .. _SpecTypeTestPlatformItemType:
 
@@ -3987,6 +4014,8 @@ The value shall match with the regular expression "``^[A-Z][a-zA-Z0-9]*$``".
 
 This type is used by the following types:
 
+* :ref:`SpecTypeDesignGroupRequirementItemType`
+
 * :ref:`SpecTypeInterfaceGroupItemType`
 
 .. _SpecTypeInterfaceGroupMembershipLinkRole:
@@ -5212,17 +5241,17 @@ Test Case Action
 This set of attributes specifies a test case action. All explicit attributes
 shall be specified. The explicit attributes for this type are:
 
-action
+action-brief
+    The attribute value shall be an optional string. It shall be the test case
+    action brief description.
+
+action-code
     The attribute value shall be a string. It shall be the test case action
     code.
 
 checks
     The attribute value shall be a list. Each list element shall be a
     :ref:`SpecTypeTestCaseCheck`.
-
-description
-    The attribute value shall be an optional string. It shall be the test case
-    action description.
 
 links
     The attribute value shall be a list. Each list element shall be a
@@ -5240,13 +5269,13 @@ Test Case Check
 This set of attributes specifies a test case check. All explicit attributes
 shall be specified. The explicit attributes for this type are:
 
-check
+brief
+    The attribute value shall be an optional string. It shall be the test case
+    check brief description.
+
+code
     The attribute value shall be a string. It shall be the test case check
     code.
-
-description
-    The attribute value shall be an optional string. It shall be the test case
-    check description.
 
 links
     The attribute value shall be a list. Each list element shall be a
@@ -5287,6 +5316,8 @@ This type is used by the following types:
 * :ref:`SpecTypeActionRequirementItemType`
 
 * :ref:`SpecTypeRuntimeMeasurementTestItemType`
+
+* :ref:`SpecTypeTestCaseItemType`
 
 .. _SpecTypeTestHeader:
 
@@ -5397,6 +5428,8 @@ This type is used by the following types:
 * :ref:`SpecTypeRuntimeMeasurementTestItemType`
 
 * :ref:`SpecTypeRuntimePerformanceRequirementItemType`
+
+* :ref:`SpecTypeTestCaseItemType`
 
 .. _SpecTypeUID:
 
