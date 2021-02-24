@@ -9,19 +9,19 @@ Test a Board Support Package (BSP)
 ==================================
 
 You built a BSP with tests in the previous section.  We built the
-``sparc/erc32`` BSP in :file:`$HOME/quick-start/src/rtems`.
+``sparc/erc32`` BSP in :file:`$HOME/quick-start/rtems/${RTEMS_VERSION}/sparc-rtems${RTEMS_VERSION}/erc32`.
 
 You should run the RTEMS test suite on your target hardware.  The RTEMS Project
 provides some support to do this, see the :ref:`Testing <Testing>` chapter for
 the details.
 
 On the ``sparc/erc32`` BSP we selected for this quick start chapter this is
-easy.  Just run this command:
+easy.  Just run this command and replace sparc-rtems:
 
 .. code-block:: none
 
-    cd $HOME/quick-start/src/rtems
-    rtems-test --rtems-bsp=erc32-sis build/sparc/erc32
+    cd $HOME/quick-start/rtems/${RTEMS_VERSION}/sparc-rtems${RTEMS_VERSION}/erc32
+    rtems-test --rtems-bsp=erc32-sis tests
 
 This command should output something like this (omitted lines are denoted by
 ...).  In this output the base directory :file:`$HOME/quick-start` was replaced
